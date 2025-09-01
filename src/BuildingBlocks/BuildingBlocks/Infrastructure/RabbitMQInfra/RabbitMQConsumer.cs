@@ -6,12 +6,14 @@ using RabbitMQ.Client.Events;
 using Microsoft.Extensions.DependencyInjection;
 using BuildingBlocks.Application.EventBus;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace BuildingBlocks.Infrastructure.RabbitMQInfra;
 
 public class RabbitMQConsumer<TIntegrationEvent>(
     IServiceScopeFactory _serviceScopeFactory,
-    ILogger<RabbitMQConsumer<TIntegrationEvent>> _logger) : BackgroundService
+    ILogger<RabbitMQConsumer<TIntegrationEvent>> _logger,
+    IOptions<RabbitMQOptions> options) : BackgroundService
     where TIntegrationEvent : IIntegrationEvent
 {
     private IConnection? _connection;
@@ -19,6 +21,7 @@ public class RabbitMQConsumer<TIntegrationEvent>(
     private readonly string _exchangeName = "event-bus";
     private readonly string _queueName = $"{typeof(TIntegrationEvent).Name}-queue";
     private readonly string _routingKey = typeof(TIntegrationEvent).Name;
+    private readonly RabbitMQOptions _options = options.Value;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -134,8 +137,25 @@ public class RabbitMQConsumer<TIntegrationEvent>(
         {
             try
             {
-                var factory = new ConnectionFactory { HostName = "localhost" };
-                _connection = await factory.CreateConnectionAsync(cancellationToken);
+                if (_options.Host == "localhost")
+                {
+                    var factory = new ConnectionFactory { HostName = "localhost" };
+
+                    _connection = await factory.CreateConnectionAsync(cancellationToken);
+                }
+                else
+                {
+                    var factory = new ConnectionFactory
+                    {
+                        HostName = _options.Host,
+                        Port = _options.Port,
+                        UserName = _options.Username,
+                        Password = _options.Password
+                    };
+
+                    _connection = await factory.CreateConnectionAsync(cancellationToken);
+                }
+
                 _logger.LogInformation("{ConsumerName} Conexão estabelecida com RabbitMQ.", _queueName);
                 retryDelay = initialRetryDelay;
             }
