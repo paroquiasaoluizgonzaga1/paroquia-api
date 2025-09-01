@@ -1,0 +1,73 @@
+# Build outputs
+**/bin/
+**/obj/
+**/Debug/
+**/Release/
+**/publish/
+
+# Dependencies
+**/node_modules/
+**/packages/
+
+# IDE files
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile*
+.dockerignore
+
+# Logs
+**/logs/
+*.log
+
+# Temporary files
+**/tmp/
+**/temp/
+*.tmp
+*.temp
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Test files
+**/TestResults/
+**/coverage/
+*.coverage
+*.coveragexml
+
+# Documentation
+**/docs/
+*.md
+README*
+
+# Configuration files that might contain secrets
+**/appsettings.Development.json
+**/appsettings.Local.json
+**/*.Development.json
+**/*.Local.json
+
+# NuGet
+**/*.nupkg
+**/packages/
+**/project.assets.json
+**/project.nuget.dgspec.json
+**/project.nuget.props
+**/project.nuget.targets
+**/project.assets.json
+**/project.nuget.cache

@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>ebd58dba-3b7b-4809-b899-53a8d58bde55</UserSecretsId>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Ardalis.Result" Version="10.1.0" />
+		<PackageReference Include="Ardalis.Result.AspNetCore" Version="10.1.0" />
+		<PackageReference Include="MediatR" Version="13.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.7" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.7">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	  <ItemGroup>
+		<ProjectReference Include="..\..\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj" />
+		<ProjectReference Include="..\..\Modules\IdentityProvider\Modules.IdentityProvider.Endpoints\Modules.IdentityProvider.Endpoints.csproj" />
+		<ProjectReference Include="..\..\Modules\ParishManagement\Modules.ParishManagement.Application\Modules.ParishManagement.Application.csproj" />
+		<ProjectReference Include="..\..\Modules\ParishManagement\Modules.ParishManagement.Infrastructure\Modules.ParishManagement.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\Modules\Notification\Modules.Notification.Infrastructure\Modules.Notification.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\Modules\IdentityProvider\Modules.IdentityProvider.Infrastructure\Modules.IdentityProvider.Infrastructure.csproj" />
+	</ItemGroup>
+
+</Project>
