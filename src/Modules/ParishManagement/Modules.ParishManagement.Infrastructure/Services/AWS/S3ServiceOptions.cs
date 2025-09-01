@@ -1,4 +1,5 @@
 using System;
+using BuildingBlocks.Utilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -18,6 +19,8 @@ public class S3ServiceOptionsSetup(
     public void Configure(S3ServiceOptions options)
     {
         _configuration.GetSection(SectionName).Bind(options);
+
+        options.BucketName = SettingsUtils.GetEnvironmentValueOrDefault("S3_BUCKET_NAME", options.BucketName);
     }
 }
 
