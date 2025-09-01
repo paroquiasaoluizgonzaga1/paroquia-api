@@ -2,11 +2,13 @@ using System.Text;
 using System.Text.Json;
 using BuildingBlocks.Application.EventBus;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 
 namespace BuildingBlocks.Infrastructure.RabbitMQInfra;
 
-public class RabbitMQPublisher(ILogger<RabbitMQPublisher> _logger) : IEventBus, IAsyncDisposable
+public class RabbitMQPublisher
+(ILogger<RabbitMQPublisher> _logger, IOptions<RabbitMQOptions> _options) : IEventBus, IAsyncDisposable
 {
     private IConnection? _connection;
     private readonly ThreadLocal<IChannel> _threadLocalChannel = new(() => null!);
@@ -37,12 +39,24 @@ public class RabbitMQPublisher(ILogger<RabbitMQPublisher> _logger) : IEventBus, 
                 if (_connection is not null)
                     await _connection.DisposeAsync();
 
-                var factory = new ConnectionFactory
+                if (_options.Value.Host == "localhost")
                 {
-                    HostName = "localhost",
-                };
+                    var factory = new ConnectionFactory { HostName = "localhost" };
 
-                _connection = await factory.CreateConnectionAsync(cancellationToken);
+                    _connection = await factory.CreateConnectionAsync(cancellationToken);
+                }
+                else
+                {
+                    var factory = new ConnectionFactory
+                    {
+                        HostName = _options.Value.Host,
+                        Port = _options.Value.Port,
+                        UserName = _options.Value.Username,
+                        Password = _options.Value.Password
+                    };
+
+                    _connection = await factory.CreateConnectionAsync(cancellationToken);
+                }
             }
         }
         catch (Exception ex)
