@@ -17,7 +17,7 @@ public class AllOtherSchedulesSpec : Specification<OtherSchedule>
         }
 
         Query
-            .OrderByDescending(x => x.CreatedAt)
+            .OrderBy(x => x.Title)
             .Skip(pageIndex * pageSize)
             .Take(pageSize);
     }
