@@ -4,5 +4,6 @@ public enum ScheduleType
 {
     GroupsAndServices = 1,
     Sacrament = 2,
-    TransparencyPortal = 3
+    TransparencyPortal = 3,
+    OtherInformations = 4
 }
